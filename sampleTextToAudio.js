@@ -39,4 +39,22 @@ let saveAudioFile = function(err, data) {
 }
 
 /* convert text in params to speech and save the audio file*/
-polly.synthesizeSpeech(params, saveAudioFile);
+//polly.synthesizeSpeech(params, saveAudioFile);
+
+let paramsForSpeechMarks = {
+  OutputFormat: "json",
+  Text: textToConvert,
+  TextType: "text",
+  VoiceId: "Matthew",
+  SpeechMarkTypes: ["sentence"]
+ };
+
+let displaySpeechMarks = function(err, data) {
+  if (err) console.log(err);
+  else {
+    console.log(data.AudioStream.toString('utf-8'));
+  }
+}
+
+/* get speech marks metadata for converted text */
+polly.synthesizeSpeech(paramsForSpeechMarks, displaySpeechMarks);
