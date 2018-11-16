@@ -39,7 +39,40 @@ let saveAudioFile = function(err, data) {
 }
 
 /* convert text in params to speech and save the audio file*/
-polly.synthesizeSpeech(params, saveAudioFile);
+//polly.synthesizeSpeech(params, saveAudioFile);
+
+/* convert text with SSML tags to audio */
+
+let textToConvertSSML = fs.readFileSync('concatenatedReportsSSML.txt', 'utf8', function (err, data) {
+  if (err) console.log(err);
+  else {
+    return data;
+  }
+});
+
+console.log("Text to be converted >> \n" +  textToConvertSSML);
+
+let paramsSSML = {
+  OutputFormat: "mp3",
+  Text: "textToConvertSSML",
+  TextType: "ssml",
+  VoiceId: "Matthew"
+ };
+
+let saveAudioFileSSML = function(err, data) {
+  if (err) console.log(err);
+  else {
+    fs.writeFile("audioSSML.mp3", data.AudioStream, function(err) {
+        if(err) console.log(err);
+        else {
+            console.log("Audio file saved: audioSSML.mp3");
+        }
+    });
+  }
+}
+
+/* convert text in params to speech and save the audio file*/
+polly.synthesizeSpeech(paramsSSML, saveAudioFileSSML);
 
 // let paramsForSpeechMarks = {
 //   OutputFormat: "json",
